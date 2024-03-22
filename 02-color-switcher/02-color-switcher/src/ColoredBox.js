@@ -16,6 +16,18 @@ function ColoredBox() {
         }
     }
 
+    const setRed = () => {
+        setColor(1);
+    }
+
+    const setGreen = () => {
+        setColor(3);
+    }
+
+    const setBlue = () => {
+        setColor(2);
+    }
+
     return <React.Fragment>
         <div style={{
             border:'1px black solid',
@@ -25,9 +37,9 @@ function ColoredBox() {
         }}>
         </div>
 
-        <button>Red</button>
-        <button>Green</button>
-        <button>Blue</button>
+        <button onClick={setRed}>Red</button>
+        <button onClick={setGreen}>Green</button>
+        <button onClick={setBlue}>Blue</button>
     </React.Fragment>
   
 }
