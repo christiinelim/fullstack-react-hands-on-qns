@@ -9,7 +9,7 @@ export default function Movies() {
                 'title': 'Dune',
                 'author': 'Frank Herbert',
                 'genre': 'science-fiction',
-                'tags':['futuristic', 'classics']
+                'tags':['futuristic', 'classic']
             },
             {
                 'id': 102,
@@ -23,23 +23,60 @@ export default function Movies() {
 
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
-    const [genre, setGenre] = useState("Fantasy");
+    const [genre, setGenre] = useState("fantasy");
     const [tags, setTags] = useState([]);
+    const [mode, setMode] = useState("Add Book");
+    const [indexToEdit, setIndexToEdit] = useState(0);
 
     const addBook = () => {
+        const newBook = {
+            'id': Math.floor(Math.random()*1000 + 1),
+            'title': title,
+            'author': author,
+            'genre': genre,
+            'tags':tags
+        }
 
+        const modified = [...books, newBook];
+        setBooks(modified);
+        clearForm();
     }
 
     const updateBook = () => {
-        
+        const modifiedBook = {
+            'id': books[indexToEdit].id,
+            'title': title,
+            'author': author,
+            'genre': genre,
+            'tags':tags
+        }
+
+        const copyBooks = books.slice();
+        copyBooks[indexToEdit] = modifiedBook;
+        setBooks(copyBooks);
+        clearForm();
+        setMode("Add Book")
     }
 
-    const displayEditBook = () => {
-
+    const displayEditBook = (b) => {
+        setMode("Update Book")
+        setTitle(b.title);
+        setAuthor(b.author);
+        setGenre(b.genre);
+        setTags(b.tags);
+        setIndexToEdit(books.indexOf(b));
     }
 
     const cancelEditBook = () => {
+        clearForm();
+        setMode("Add Book")
+    }
 
+    const clearForm = () => {
+        setTitle("");
+        setAuthor("");
+        setGenre("fantasy");
+        setTags([]);
     }
 
     const handleInputChange = (e) => {
@@ -74,7 +111,8 @@ export default function Movies() {
                                 <li>{b.title}</li>
                                 <li>{b.author}</li>
                                 <li>{b.genre}</li>
-                                <li>b.tags.join(", ")</li>
+                                <li>{b.tags.join(", ")}</li>
+                                <button onClick={() => displayEditBook(b)}>Edit</button>
                             </div>
                         )
                     })
@@ -113,7 +151,8 @@ export default function Movies() {
                 <input type="checkbox" name="tags" value="futuristic" checked={tags.includes("futuristic")} onChange={handleInputChange}/><label>futuristic</label>
                 <input type="checkbox" name="tags" value="trilogy" checked={tags.includes("trilogy")} onChange={handleInputChange}/><label>trilogy</label>
             </div>
-            <button>Add Book</button>
+            <button onClick={mode === "Add Book" ? addBook : updateBook}>{mode}</button>
+            {mode === "Update Book" && <button onClick={cancelEditBook}>Cancel Edit</button>}
             </div>
         </div>
     </React.Fragment>
