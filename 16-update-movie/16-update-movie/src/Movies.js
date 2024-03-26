@@ -18,28 +18,29 @@ export default function Movies(){
     )
     const [title, setTitle] = useState("");
     const [director, setDirector] = useState("");
+    const [displayForm, setDisplayForm] = useState(false);
+    const [modfyingIndex, setModifyingIndex] = useState(0);
  
 
     function updateMovie() {
-        // 1. create the updated movie object.
-        // hint: replace the null below with the correct code
-        // hint 2: where is the data for the new movie currently stored?
         let updatedMovie  = {
-            id: null,
-            title: null,
-            director: null
+            id: movies[modfyingIndex].id,
+            title: title,
+            director: director
         }
 
-        // 2. find the original index of the updated movie
-
-        // 3. clone the array
-
-        // 4. add the updated movie object back to its original index in
-        // the array
-
-        // 5. set the cloned array back into the state
+        const modified = movies.slice();
+        modified[modfyingIndex] = updatedMovie
+        setMovies(modified);
+        setDisplayForm(false);
     }
 
+    const onDisplayFormClick = (m) => {
+      setDisplayForm(true);
+      setTitle(m.title);
+      setDirector(m.director);
+      setModifyingIndex(movies.indexOf(m));
+    }
 
     return <React.Fragment>
       <div class="container">
@@ -47,14 +48,14 @@ export default function Movies(){
           {movies.map(m => (
             <React.Fragment>
               <div class="movie">
-                <h1> {m.title} <button>Edit</button> </h1>
+                <h1> {m.title} <button onClick={() => onDisplayFormClick(m)}>Edit</button> </h1>
                 <h2> Directed by {m.director} </h2>
               </div>
             </React.Fragment>
           ))}
         </div>
 
-        <div class="col" style={{display: "none"}}>
+        <div class="col" style={{display: displayForm ? "block" : "none"}}>
             <h3>Edit Movie</h3>
             <div>
                 <label>Movie Title:</label>

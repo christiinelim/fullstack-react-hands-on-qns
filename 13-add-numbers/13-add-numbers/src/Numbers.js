@@ -3,19 +3,26 @@ import React, {useState} from 'react'
 export default function Numbers () {
   
     const [allNumbers, setAllNumbers] = useState([1,3,5,7]);
+    const [userNumber, setUserNumber] = useState(0);
   
 
     const addRandom = ()=> {
-        // 1. clone the allNumbers array in the state
-
-        // 2. add a random number to the back of the clone
         let randomNumber = Math.floor(Math.random() * 10 + 1)
-
-        // 3. set the cloned array back into the state
+        const modified = [...allNumbers, randomNumber];
+        setAllNumbers(modified);
     }
 
     const addNumber = () => {
         
+    }
+
+    const handleNewNumber = (e) => {
+        setUserNumber(e.target.value);
+    }
+
+    const handleAddUserNumber = () => {
+        const modified = [...allNumbers, userNumber];
+        setAllNumbers(modified);
     }
 
 
@@ -28,8 +35,8 @@ export default function Numbers () {
             <button onClick={addRandom}>Add Random</button>
         </div>
         <div>
-            <input type="text" name="newNumber"/>
-            <button>Add</button>
+            <input type="text" name="newNumber" value={userNumber} onChange={handleNewNumber}/>
+            <button onClick={handleAddUserNumber}>Add</button>
         </div>
     </React.Fragment>
 

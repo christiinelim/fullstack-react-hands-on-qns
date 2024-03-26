@@ -20,7 +20,11 @@ export default function Movies(){
   
 
     function addMovie() {
-
+        const modified = [...movies, {
+            "title": title,
+            "director": director
+        }]
+        setMovies(modified);
 
     }
 
